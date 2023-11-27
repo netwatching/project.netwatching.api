@@ -1,9 +1,13 @@
-FROM ubuntu:23.10 AS base
+FROM rust:latest AS base
 
 WORKDIR /app
 
+COPY Cargo.* ./
+
+RUN cargo build
+
 COPY /src/ /app/
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["cargo", "run"]
 
 HEALTHCHECK --start-period=3s --interval=3s --timeout=3s CMD exit 0
